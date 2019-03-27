@@ -1,2 +1,2 @@
 # project
-
+The project idea is to optimise the management process of a commodity inventory system of a chain retail supermarket. The system will include basic features include a search filter of stocks, insert, delete and update information, automatic status change of the inventory system and deliver alerts. Additionally, a function is implemented to display the data of the stocks sold in a certain length of time to show the popularity of the commodity.
