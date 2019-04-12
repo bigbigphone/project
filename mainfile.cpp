@@ -41,18 +41,23 @@ int main(){
     cout<<" 0 ---- Terminate The System"<<endl;
     cout<<" Please Input The Corresponding Function Number :";
     cin>>main_command>>endl;
+    cout<<"===================================================================================================================="<<endl;
     if (main_command==1){
       int search_command=3;
       while (search_command!=0){
         cout<<" 1 ---- Show In-Stock"<<endl;
         cout<<" 2 ---- Show Out-of-Stock"<<endl;
         cout<<" 0 ---- Return To Previous Page"<<endl;
+        cout<<" Please Input The Corrsponding Function Number : ";
+        cin>>search_command>>endl;
+        cout<<endl;
         if (search_command==1){
           show_instock();
         }
         if (search_command==2){
           show_outofstock();
         }
+        cout<<"===================================================================================================================="<<endl;
         
       }
     
@@ -63,7 +68,7 @@ int main(){
         cout<<" 1 ---- Insert New Commodity"<<endl;
         cout<<" 2 ---- Insert Current Commodity"<<endl;
         cout<<" 0 ---- Return To Previous Page"<<endl;
-        cout<<" Please Input The Corresponding Function Number :";
+        cout<<" Please Input The Corresponding Function Number : ";
         cin>>add_command>>endl;
         cout<<endl;
         if (add_command==1){
@@ -85,6 +90,7 @@ int main(){
           cin>>product_amount>>endl;
           add_function(product_name,product_amount);
         }
+        cout<<"===================================================================================================================="<<endl;
        
     }
     // XXXXXXXXXXXXXX
@@ -108,7 +114,8 @@ int main(){
           cout<<" Please Input Quantity of Removal : ";
           cin>>product_amount>>endl;
           reduce_function(product_name,product_amount);
-        }     
+        }
+        cout<<"===================================================================================================================="<<endl;
     }
     //XXXXXXXXXXXXX
     if (main_command==4){
@@ -145,6 +152,7 @@ int main(){
         }
       }
       update_function(new_product_name,new_product_quantity,new_product_price,new_product_manufacturer);
+      cout<<"===================================================================================================================="<<endl;
     }
   }
   cout<<" Think You For Using The System"<<endl;
