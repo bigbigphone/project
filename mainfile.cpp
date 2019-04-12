@@ -1,6 +1,28 @@
 #include <iostream>
 #include <string>
 using namespace std;
+void show_instock();
+{
+}
+void show_outofstock();
+{
+}
+void insert_new_function(string product_name,int product_amount,double product_price,string product_manufacturer);
+{
+} 
+void add_function(string product_name,int product_amount);
+{
+}
+void delete_function(string product_name);
+{
+}
+void reduce_function(string product_name,int product_amount);
+{
+}
+void update_function(string new_product_name,int new_product_quantity,double new_product_price,string new_product_manufacturer);
+{
+}
+
 int main(){
   int main_command=5;
   int product_amount=0;
@@ -20,6 +42,19 @@ int main(){
     cout<<" Please Input The Corresponding Function Number :";
     cin>>main_command>>endl;
     if (main_command==1){
+      int search_command=3;
+      while (search_command!=0){
+        cout<<" 1 ---- Show In-Stock"<<endl;
+        cout<<" 2 ---- Show Out-of-Stock"<<endl;
+        cout<<" 0 ---- Return To Previous Page"<<endl;
+        if (search_command==1){
+          show_instock();
+        }
+        if (search_command==2){
+          show_outofstock();
+        }
+        
+      }
     
     }
     if (main_command==2){
@@ -30,6 +65,7 @@ int main(){
         cout<<" 0 ---- Return To Previous Page"<<endl;
         cout<<" Please Input The Corresponding Function Number :";
         cin>>add_command>>endl;
+        cout<<endl;
         if (add_command==1){
           cout<<" Please Input Product Name : ";
           cin>>product_name>>endl;
@@ -60,6 +96,7 @@ int main(){
         cout<<" 0 ---- Return To Previous Page"<<endl;
         cout<<" Please Input The Corresponding Function Number :";
         cin>>delete_command>>endl;
+        cout<<endl;
         if (delete_command==1){
           cout<<" Please Input Product Name : ";
           cin>>product_name>>endl;
@@ -82,6 +119,7 @@ int main(){
       // if no input of new item ,break in the corresponding function =
       cout<<" Please Input Product Name : ";
       cin>>product_name>>endl;
+      cout<<endl;
       while (update_command!=0){
         cout<<" 1 ---- Change Commodity Name"<<endl;
         cout<<" 2 ---- Change Commodity Quantity"<<endl;
