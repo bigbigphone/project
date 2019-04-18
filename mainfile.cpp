@@ -1,11 +1,72 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 void show_instock();
 {
+  ifstream fin("stock_info.txt");
+  string name,manufacturer;
+  int quantity;
+  double price;
+  if (fin.fail()){
+    exit(1);
+  }
+  else{
+    while (fin>>name ){
+      fin>>quantity>>price>>manufacturer;
+      if (quantity==0){
+        continue;
+      }
+      else{
+        cout<<name<<"  "<<quantity<<"Pieces"<<"  $"<<price<<"  "<<manufacturer<<endl;
+      }
+    }
+  }
+  fin.close();
 }
 void show_outofstock();
 {
+  ifstream fin("stock_info.txt");
+  string name,manufacturer;
+  int quantity;
+  double price;
+  if (fin.fail()){
+    exit(1);
+  }
+  else{
+    while (fin>>name ){
+      fin>>quantity>>price>>manufacturer;
+      if (quantity==0){
+        cout<<name<<"  $"<<price<<"  "<<manufacturer<<endl;
+        othershop(name);
+      }
+      else{
+        continue;
+      }
+    }
+  }
+  fin.close();
+}
+void othershop(string name);
+{
+  ifstream fin("Othershopstock.txt");
+  string name2,shop_name;
+  int quantity;
+  if (fin.fail()){
+    exit(1);
+  }
+  else{
+    while (fin>>name2){
+      fin>>quantity>>shop_name;
+      if (name2==name){
+        cout<<shop_name<<" is in stock. "<<quantity<<" pieces are available."<<endl;
+      }
+      else{
+        continue;
+      }
+    }
+  }
+  fin.close();
 }
 void insert_new_function(string product_name,int product_amount,double product_price,string product_manufacturer);
 {
