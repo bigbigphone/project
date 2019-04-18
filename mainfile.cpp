@@ -2,6 +2,27 @@
 #include <string>
 #include <fstream>
 using namespace std;
+void othershop(string name);
+{
+  ifstream fin("Othershopstock.txt");
+  string name2,shop_name;
+  int quantity;
+  if (fin.fail()){
+    exit(1);
+  }
+  else{
+    while (fin>>name2){
+      fin>>quantity>>shop_name;
+      if (name2==name){
+        cout<<shop_name<<" is in stock. "<<quantity<<" pieces are available."<<endl;
+      }
+      else{
+        continue;
+      }
+    }
+  }
+  fin.close();
+}
 void show_instock();
 {
   ifstream fin("stock_info.txt");
@@ -39,27 +60,6 @@ void show_outofstock();
       if (quantity==0){
         cout<<name<<"  $"<<price<<"  "<<manufacturer<<endl;
         othershop(name);
-      }
-      else{
-        continue;
-      }
-    }
-  }
-  fin.close();
-}
-void othershop(string name);
-{
-  ifstream fin("Othershopstock.txt");
-  string name2,shop_name;
-  int quantity;
-  if (fin.fail()){
-    exit(1);
-  }
-  else{
-    while (fin>>name2){
-      fin>>quantity>>shop_name;
-      if (name2==name){
-        cout<<shop_name<<" is in stock. "<<quantity<<" pieces are available."<<endl;
       }
       else{
         continue;
