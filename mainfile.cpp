@@ -70,15 +70,109 @@ void show_outofstock();
 }
 void insert_new_function(string product_name,int product_amount,double product_price,string product_manufacturer);
 {
+  ofstream fout
+  fout.open("stock_info.txt", ios::app);
+  if (fout.fail()){
+    exit(1);
+  }
+  fout << product_name << " " << product_amount << " " << product_price << " " << product_manufacturer << endl;
+  fout.close();
+  cout << product_name << " is inserted to the commodity inventory system." << endl;
+  cout << endl;
 } 
 void add_function(string product_name,int product_amount);
 {
+  str temp_name, temp_manufacturer;
+  int temp_amount,total_amount;
+  double temp_price;
+  ifstream fin
+  fin.open("stock_info.txt");
+  if (fin.fail()){
+    exit(1);
+  }
+  ofstream fout
+  fout.open("temp.txt", ios::app);
+  if (fout.fail()){
+    exit(1);
+  }
+  while (fin >> temp_name){
+    fin >> temp_amount >> temp_price >> temp_manufacturer;
+    if (temp_name != product_name){
+      fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
+    }
+    else{
+      total_amount = temp_amount + product_amount;
+      fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
+      cout << "The fore-updated product quantity is " << temp_amount << endl;
+      cout << "The updated quantity is " << total_amount << endl;
+      cout << endl;
+    }
+  fin.close()
+  fout.close()
+  remove("stock_info.txt");
+  rename("temp.txt", "stock_info.txt");
+  }
 }
 void delete_function(string product_name);
 {
+  str temp_name, temp_manufacturer;
+  int temp_amount;
+  double temp_price;
+  ifstream fin
+  fin.open("stock_info.txt");
+  if (fin.fail()){
+    exit(1);
+  }
+  ofstream fout
+  fout.open("temp.txt", ios::app);
+  if (fout.fail()){
+    exit(1);
+  }
+  while (fin >> temp_name){
+    fin >> temp_amount >> temp_price >> temp_manufacturer;
+    if (temp_name != product_name){
+      fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
+    }
+    else{
+      cout << "The removed product is " << product_name << endl;
+      cout << endl;
+    }
+  fin.close()
+  fout.close()
+  remove("stock_info.txt");
+  rename("temp.txt", "stock_info.txt");
 }
 void reduce_function(string product_name,int product_amount);
 {
+  str temp_name, temp_manufacturer;
+  int temp_amount,total_amount;
+  double temp_price;
+  ifstream fin
+  fin.open("stock_info.txt");
+  if (fin.fail()){
+    exit(1);
+  }
+  ofstream fout
+  fout.open("temp.txt", ios::app);
+  if (fout.fail()){
+    exit(1);
+  }
+  while (fin >> temp_name){
+    fin >> temp_amount >> temp_price >> temp_manufacturer;
+    if (temp_name != product_name){
+      fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
+    }
+    else{
+      total_amount = temp_amount + product_amount;
+      fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
+      cout << "The fore-updated product quantity is " << temp_amount << endl;
+      cout << "The updated quantity is " << total_amount << endl;
+      cout << endl;
+    }
+  fin.close()
+  fout.close()
+  remove("stock_info.txt");
+  rename("temp.txt", "stock_info.txt");
 }
 void update_function(string new_product_name,int new_product_quantity,double new_product_price,string new_product_manufacturer);
 {
@@ -124,7 +218,9 @@ int main(){
     
     }
     if (main_command==2){
-      int add_command=3;
+      str product_name, product_manufacturer;
+      int add_command=3, product_amount;
+      double product_price;
       while (add_command!=0){
         cout<<" 1 ---- Insert New Commodity"<<endl;
         cout<<" 2 ---- Insert Current Commodity"<<endl;
