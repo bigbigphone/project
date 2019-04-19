@@ -70,11 +70,13 @@ void show_outofstock();
 }
 void insert_new_function(string product_name,int product_amount,double product_price,string product_manufacturer);
 {
+  str temp_name;
   ofstream fout
   fout.open("stock_info.txt", ios::app);
   if (fout.fail()){
     exit(1);
   }
+  // add The product product_name already exists!
   fout << product_name << " " << product_amount << " " << product_price << " " << product_manufacturer << endl;
   fout.close();
   cout << product_name << " is inserted to the commodity inventory system." << endl;
@@ -95,6 +97,7 @@ void add_function(string product_name,int product_amount);
   if (fout.fail()){
     exit(1);
   }
+  // add The product product_name does not exist!
   while (fin >> temp_name){
     fin >> temp_amount >> temp_price >> temp_manufacturer;
     if (temp_name != product_name){
@@ -128,6 +131,7 @@ void delete_function(string product_name);
   if (fout.fail()){
     exit(1);
   }
+  // add The product product_name does not exist!
   while (fin >> temp_name){
     fin >> temp_amount >> temp_price >> temp_manufacturer;
     if (temp_name != product_name){
@@ -157,13 +161,14 @@ void reduce_function(string product_name,int product_amount);
   if (fout.fail()){
     exit(1);
   }
+  // add The product product_name does not exist! / The quantity of product_name is fewer than product_amount!
   while (fin >> temp_name){
     fin >> temp_amount >> temp_price >> temp_manufacturer;
     if (temp_name != product_name){
       fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
     }
     else{
-      total_amount = temp_amount + product_amount;
+      total_amount = temp_amount - product_amount;
       fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
       cout << "The fore-updated product quantity is " << temp_amount << endl;
       cout << "The updated quantity is " << total_amount << endl;
