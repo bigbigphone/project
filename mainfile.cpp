@@ -276,7 +276,6 @@ int main(){
   int product_amount=0;
   double product_price=0.0;
   string product_name,product_manufacturer;
-  
   cout<<"******************************"<<endl;
   cout<<"**Commodity Inventory System**"<<endl;
   cout<<"******************************"<<endl;
