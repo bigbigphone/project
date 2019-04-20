@@ -70,23 +70,44 @@ void show_outofstock();
 }
 void insert_new_function(string product_name,int product_amount,double product_price,string product_manufacturer);
 {
-  str temp_name;
-  ofstream fout
-  fout.open("stock_info.txt", ios::app);
-  if (fout.fail()){
+  str temp_name,temp_mfr;
+  int temp_amt;
+  double temp_p;
+  int n = 0;
+  ifstream fin
+  fin.open("stock_info.txt");
+  if (fin.fail()){
     exit(1);
   }
-  // add The product product_name already exists!
-  fout << product_name << " " << product_amount << " " << product_price << " " << product_manufacturer << endl;
-  fout.close();
-  cout << product_name << " is inserted to the commodity inventory system." << endl;
-  cout << endl;
+  while (fin >> temp_name){
+    fin >> temp_amt >> temp_p >> temp_mfr;
+    if (temp_name == product_name){
+      n += 1;
+    }
+  }
+  fin.close();
+  if (n > 0){
+    cout << "The product " << product_name << " already exists!" << endl;
+    cout << endl;
+  }
+  else{
+    ofstream fout
+    fout.open("stock_info.txt", ios::app);
+    if (fout.fail()){
+      exit(1);
+    }
+    fout << product_name << " " << product_amount << " " << product_price << " " << product_manufacturer << endl;
+    fout.close();
+    cout << product_name << " is inserted to the commodity inventory system." << endl;
+    cout << endl;
+  }
 } 
 void add_function(string product_name,int product_amount);
 {
   str temp_name, temp_manufacturer;
   int temp_amount,total_amount;
   double temp_price;
+  int n = 0;
   ifstream fin
   fin.open("stock_info.txt");
   if (fin.fail()){
@@ -97,30 +118,35 @@ void add_function(string product_name,int product_amount);
   if (fout.fail()){
     exit(1);
   }
-  // add The product product_name does not exist!
   while (fin >> temp_name){
     fin >> temp_amount >> temp_price >> temp_manufacturer;
     if (temp_name != product_name){
       fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
     }
     else{
+      n += 1;
       total_amount = temp_amount + product_amount;
       fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
       cout << "The fore-updated product quantity is " << temp_amount << endl;
       cout << "The updated quantity is " << total_amount << endl;
       cout << endl;
     }
+  }
+  if (n == 0){
+    cout << "The product " << product_name << " does not exist!" << endl;
+    cout << endl;
+  }
   fin.close()
   fout.close()
   remove("stock_info.txt");
   rename("temp.txt", "stock_info.txt");
-  }
 }
 void delete_function(string product_name);
 {
   str temp_name, temp_manufacturer;
   int temp_amount;
   double temp_price;
+  int n = 0;
   ifstream fin
   fin.open("stock_info.txt");
   if (fin.fail()){
@@ -131,16 +157,21 @@ void delete_function(string product_name);
   if (fout.fail()){
     exit(1);
   }
-  // add The product product_name does not exist!
   while (fin >> temp_name){
     fin >> temp_amount >> temp_price >> temp_manufacturer;
     if (temp_name != product_name){
       fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
     }
     else{
+      n += 1;
       cout << "The removed product is " << product_name << endl;
       cout << endl;
     }
+  }
+  if (n == 0){
+    cout << "The product " << product_name << " does not exist!" << endl;
+    cout << endl;
+  }
   fin.close()
   fout.close()
   remove("stock_info.txt");
@@ -151,6 +182,7 @@ void reduce_function(string product_name,int product_amount);
   str temp_name, temp_manufacturer;
   int temp_amount,total_amount;
   double temp_price;
+  int n = 0;
   ifstream fin
   fin.open("stock_info.txt");
   if (fin.fail()){
@@ -161,19 +193,30 @@ void reduce_function(string product_name,int product_amount);
   if (fout.fail()){
     exit(1);
   }
-  // add The product product_name does not exist! / The quantity of product_name is fewer than product_amount!
   while (fin >> temp_name){
     fin >> temp_amount >> temp_price >> temp_manufacturer;
     if (temp_name != product_name){
       fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
     }
     else{
+      n += 1;
       total_amount = temp_amount - product_amount;
-      fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
-      cout << "The fore-updated product quantity is " << temp_amount << endl;
-      cout << "The updated quantity is " << total_amount << endl;
-      cout << endl;
+      if (total_amount >= 0){
+        fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
+        cout << "The fore-updated product quantity is " << temp_amount << endl;
+        cout << "The updated quantity is " << total_amount << endl;
+        cout << endl;
+      }
+      else{
+        cout << "The quantity of " << product_name << " is fewer than " << product_amount << "!" << endl;
+        cout << endl;
+      }
     }
+  }
+  if (n == 0){
+    cout << "The product " << product_name << " does not exist!" << endl;
+    cout << endl;
+  }
   fin.close()
   fout.close()
   remove("stock_info.txt");
@@ -221,7 +264,7 @@ void update_function(string product_name,string new_product_name,int new_product
        
         
       if (n==0){
-        cout<<"Sorry,the input items does not exist"<<endl;
+        cout<<"Sorry, the input item does not exist"<<endl;
       }
       else{
         remove("stock_info.txt");
