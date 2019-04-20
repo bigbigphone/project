@@ -2,11 +2,13 @@
 #include <string>
 #include <fstream>
 using namespace std;
+
 void othershop(string name);
 {
   ifstream fin("Othershopstock.txt");
   string name2,shop_name;
   int quantity;
+  
   if (fin.fail()){
     exit(1);
   }
@@ -23,12 +25,14 @@ void othershop(string name);
   }
   fin.close();
 }
+
 void show_instock();
 {
   ifstream fin("stock_info.txt");
   string name,manufacturer;
   int quantity;
   double price;
+  
   if (fin.fail()){
     exit(1);
   }
@@ -45,12 +49,14 @@ void show_instock();
   }
   fin.close();
 }
+
 void show_outofstock();
 {
   ifstream fin("stock_info.txt");
   string name,manufacturer;
   int quantity;
   double price;
+  
   if (fin.fail()){
     exit(1);
   }
@@ -68,12 +74,14 @@ void show_outofstock();
   }
   fin.close();
 }
+
 void insert_new_function(string product_name,int product_amount,double product_price,string product_manufacturer);
 {
   str temp_name,temp_mfr;
   int temp_amt;
   double temp_p;
   int n = 0;
+  
   ifstream fin
   fin.open("stock_info.txt");
   if (fin.fail()){
@@ -102,12 +110,14 @@ void insert_new_function(string product_name,int product_amount,double product_p
     cout << endl;
   }
 } 
+
 void add_function(string product_name,int product_amount);
 {
   str temp_name, temp_manufacturer;
   int temp_amount,total_amount;
   double temp_price;
   int n = 0;
+  
   ifstream fin
   fin.open("stock_info.txt");
   if (fin.fail()){
@@ -141,12 +151,14 @@ void add_function(string product_name,int product_amount);
   remove("stock_info.txt");
   rename("temp.txt", "stock_info.txt");
 }
+
 void delete_function(string product_name);
 {
   str temp_name, temp_manufacturer;
   int temp_amount;
   double temp_price;
   int n = 0;
+  
   ifstream fin
   fin.open("stock_info.txt");
   if (fin.fail()){
@@ -177,12 +189,14 @@ void delete_function(string product_name);
   remove("stock_info.txt");
   rename("temp.txt", "stock_info.txt");
 }
+
 void reduce_function(string product_name,int product_amount);
 {
   str temp_name, temp_manufacturer;
   int temp_amount,total_amount;
   double temp_price;
   int n = 0;
+  
   ifstream fin
   fin.open("stock_info.txt");
   if (fin.fail()){
@@ -222,12 +236,14 @@ void reduce_function(string product_name,int product_amount);
   remove("stock_info.txt");
   rename("temp.txt", "stock_info.txt");
 }
+
 void update_function(string product_name,string new_product_name,int new_product_quantity,double new_product_price,string new_product_manufacturer);
 {
   string orginal_product_name,orginal_product_manufacturer;
   int orginal_product_quantity;
   double orginal_product_price;
   int n=0;
+  
   ifstream fin("stock_info.txt");
   if (fin.fail()){
     exit(1);
@@ -271,11 +287,13 @@ void update_function(string product_name,string new_product_name,int new_product
     }
   } 
 }
+
 int main(){
   int main_command=5;
   int product_amount=0;
   double product_price=0.0;
   string product_name,product_manufacturer;
+  
   cout<<"******************************"<<endl;
   cout<<"**Commodity Inventory System**"<<endl;
   cout<<"******************************"<<endl;
@@ -289,6 +307,7 @@ int main(){
     cout<<" Please Input The Corresponding Function Number :";
     cin>>main_command>>endl;
     cout<<"===================================================================================================================="<<endl;
+   
     if (main_command==1){
       int search_command=3;
       while (search_command!=0){
@@ -307,6 +326,7 @@ int main(){
         cout<<"===================================================================================================================="<<endl;
       }
     }
+    
     if (main_command==2){
       str product_name, product_manufacturer;
       int add_command=3, product_amount;
@@ -338,7 +358,7 @@ int main(){
         }
         cout<<"===================================================================================================================="<<endl;    
     }
-    // XXXXXXXXXXXXXX
+
     if (main_command==3){
       int delete_command=3;
       while (delete_command!=0){
@@ -362,7 +382,7 @@ int main(){
         }
         cout<<"===================================================================================================================="<<endl;
     }
-    //XXXXXXXXXXXXX
+
     if (main_command==4){
       int update_command=5;
       string new_product_name='nothing',new_product_manufacturer='nothing';
