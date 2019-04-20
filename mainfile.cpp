@@ -318,9 +318,7 @@ int main(){
           show_outofstock();
         }
         cout<<"===================================================================================================================="<<endl;
-        
       }
-    
     }
     if (main_command==2){
       str product_name, product_manufacturer;
@@ -344,7 +342,6 @@ int main(){
           cin>>product_manufacturer>>endl;
           insert_new_function(product_name,product_amount,product_price,product_manufacturer);
         }
-        
         if (add_command==2){
           cout<<" Please Input Product Name : ";
           cin>>product_name>>endl;
@@ -352,8 +349,7 @@ int main(){
           cin>>product_amount>>endl;
           add_function(product_name,product_amount);
         }
-        cout<<"===================================================================================================================="<<endl;
-       
+        cout<<"===================================================================================================================="<<endl;    
     }
     // XXXXXXXXXXXXXX
     if (main_command==3){
