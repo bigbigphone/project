@@ -258,11 +258,8 @@ void update_function(string product_name,string new_product_name,int new_product
         }
         fout<<orginal_product_name<<" "<<orginal_product_quantity<<" "<<orginal_product_price<<" "<<orginal_product_manufacturer<<endl;
       }
-        
       fin.close()
-      fout.close()
-       
-        
+      fout.close() 
       if (n==0){
         cout<<"Sorry, the input item does not exist"<<endl;
       }
@@ -272,17 +269,8 @@ void update_function(string product_name,string new_product_name,int new_product
         cout<<"The information has been updated"<<endl;
       }
     }
-  }
-      
-          
-   
-        
-            
-
-      
-  
+  } 
 }
-
 int main(){
   int main_command=5;
   int product_amount=0;
