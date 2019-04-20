@@ -179,8 +179,65 @@ void reduce_function(string product_name,int product_amount);
   remove("stock_info.txt");
   rename("temp.txt", "stock_info.txt");
 }
-void update_function(string new_product_name,int new_product_quantity,double new_product_price,string new_product_manufacturer);
+void update_function(string product_name,string new_product_name,int new_product_quantity,double new_product_price,string new_product_manufacturer);
 {
+  string orginal_product_name,orginal_product_manufacturer;
+  int orginal_product_quantity;
+  double orginal_product_price;
+  int n=0;
+  ifstream fin("stock_info.txt");
+  if (fin.fail()){
+    exit(1);
+  }
+  else{
+    ofstream fout
+    fout.open("temp.txt", ios::app);
+    if (fout.fail()){
+      exit(1);
+    }
+    else{
+      while(fin>>orginal_product_name){
+        fin>>orginal_product_quantity>>orginal_product_price>>orginal_product_manufacturer;
+        if (orginal_product_name==product_name){
+          n=1;
+          if (new_product_name!="nothing"){
+            orginal_product_name=new_product_name;
+          }
+          if (new_product_quantity!=-1){
+            orginal_product_quantity=new_product_quantity;
+          }
+          if (new_product_price!=-1){
+            orginal_product_price=new_product_price;
+          }
+          if (new_product_price!="nothing"){
+            orginal_product_manufacturer=new_product_manufacturer;
+          }
+        }
+        fout<<orginal_product_name<<" "<<orginal_product_quantity<<" "<<orginal_product_price<<" "<<orginal_product_manufacturer<<endl;
+      }
+        
+      fin.close()
+      fout.close()
+       
+        
+      if (n==0){
+        cout<<"Sorry,the input items does not exist"<<endl;
+      }
+      else{
+        remove("stock_info.txt");
+        rename("temp.txt", "stock_info.txt");
+        cout<<"The information has been updated"<<endl;
+      }
+    }
+  }
+      
+          
+   
+        
+            
+
+      
+  
 }
 
 int main(){
@@ -294,7 +351,7 @@ int main(){
         cout<<" 2 ---- Change Commodity Quantity"<<endl;
         cout<<" 3 ---- Change Commodity Price"<<endl;
         cout<<" 4 ---- Change Commodity Manufacturer"<<endl;
-        cout<<" 0 ---- Return To Previous Page<<"endl;
+        cout<<" 0 ---- Finishing the Changing Process<<"endl;
         cout<<" Please Input The Corresponding Function Number :";
         if (update_command==1){
           cout<<" Please Input New Product Name : ";
@@ -313,7 +370,7 @@ int main(){
           cin>>new_product_manufacturer>>endl;
         }
       }
-      update_function(new_product_name,new_product_quantity,new_product_price,new_product_manufacturer);
+      update_function(product_name,new_product_name,new_product_quantity,new_product_price,new_product_manufacturer);
       cout<<"===================================================================================================================="<<endl;
     }
   }
