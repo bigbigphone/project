@@ -106,6 +106,7 @@ void insert_new_function(string product_name,int product_amount,double product_p
     }
     fout << product_name << " " << product_amount << " " << product_price << " " << product_manufacturer << endl;
     fout.close();
+    cout << endl;
     cout << product_name << " is inserted to the commodity inventory system." << endl;
     cout << endl;
   }
@@ -137,6 +138,7 @@ void add_function(string product_name,int product_amount)
       n += 1;
       total_amount = temp_amount + product_amount;
       fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
+      cout << endl;
       cout << "The fore-updated product quantity is " << temp_amount << endl;
       cout << "The updated quantity is " << total_amount << endl;
       cout << endl;
@@ -176,11 +178,13 @@ void delete_function(string product_name)
     }
     else{
       n += 1;
+      cout << endl;
       cout << "The removed product is " << product_name << endl;
       cout << endl;
     }
   }
   if (n == 0){
+    cout << endl;
     cout << "The product " << product_name << " does not exist!" << endl;
     cout << endl;
   }
@@ -217,6 +221,7 @@ void reduce_function(string product_name,int product_amount)
       total_amount = temp_amount - product_amount;
       if (total_amount >= 0){
         fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
+        cout << endl;
         cout << "The fore-updated product quantity is " << temp_amount << endl;
         cout << "The updated quantity is " << total_amount << endl;
         cout << endl;
