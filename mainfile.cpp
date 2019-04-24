@@ -115,7 +115,7 @@ void insert_new_function(string product_name,int product_amount,double product_p
 void add_function(string product_name,int product_amount)
 {
   string temp_name, temp_manufacturer;
-  int temp_amount,total_amount;
+  int temp_amount,total_amount; // no total_amount, use dynamic variable, same in reduce_function
   double temp_price;
   int n = 0;
   
