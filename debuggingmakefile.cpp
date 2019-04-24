@@ -399,6 +399,7 @@ int main(){
         cout<<" 4 ---- Change Commodity Manufacturer"<<endl;
         cout<<" 0 ---- Finishing the Changing Process"<<endl;
         cout<<" Please Input The Corresponding Function Number :";
+        cin >> update_command;
         if (update_command==1){
           cout<<" Please Input New Product Name : ";
           cin>>new_product_name;
