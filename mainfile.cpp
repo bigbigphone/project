@@ -91,7 +91,7 @@ void show_allstock()
   }
 }
 
-void insert_new_function(string product_name,int product_amount,double product_price,string product_manufacturer)
+void insert_new_function(string product_name,int *product_amount,double product_price,string product_manufacturer)
 {
   string temp_name,temp_mfr;
   int temp_amt;
@@ -121,7 +121,7 @@ void insert_new_function(string product_name,int product_amount,double product_p
     if (fout.fail()){
       exit(1);
     }
-    fout << product_name << " " << product_amount << " " << product_price << " " << product_manufacturer << endl;
+    fout << product_name << " " << *product_amount << " " << product_price << " " << product_manufacturer << endl;
     fout.close();
     cout << endl;
     cout << product_name << " is inserted to the commodity inventory system." << endl;
@@ -129,10 +129,10 @@ void insert_new_function(string product_name,int product_amount,double product_p
   }
 } 
 
-void add_function(string product_name,int product_amount)
+void add_function(string product_name,int *product_amount)
 {
   string temp_name, temp_manufacturer;
-  int temp_amount,total_amount; // no total_amount, use dynamic variable, same in reduce_function
+  int temp_amount;
   double temp_price;
   int n = 0;
   
@@ -153,8 +153,8 @@ void add_function(string product_name,int product_amount)
     }
     else{
       n += 1;
-      total_amount = temp_amount + product_amount;
-      fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
+      *product_amount = temp_amount + *product_amount;
+      fout << temp_name << " " << *product_amount << " " << temp_price << " " << temp_manufacturer << endl;
       cout << endl;
       cout << "The fore-updated product quantity is " << temp_amount << endl;
       cout << "The updated quantity is " << total_amount << endl;
@@ -367,8 +367,10 @@ int main(){
     
     if (main_command==2){
       string product_name, product_manufacturer;
-      int add_command=3, product_amount;
+      int add_command=3;
       double product_price;
+      int *product_amount = new int;
+      
       while (add_command!=0){
         cout<<" 1 ---- Insert New Commodity"<<endl;
         cout<<" 2 ---- Insert Current Commodity"<<endl;
@@ -380,7 +382,7 @@ int main(){
           cout<<" Please Input Product Name : ";
           cin>>product_name;
           cout<<" Please Input Quantity : ";
-          cin>>product_amount;
+          cin>>*product_amount;
           cout<<" Please Input Price : ";
           cin>>product_price;
           cout<<" Please Input Manufacturer : ";
@@ -391,10 +393,11 @@ int main(){
           cout<<" Please Input Product Name : ";
           cin>>product_name;
           cout<<" Please Input Quantity of Appendage : ";
-          cin>>product_amount;
+          cin>>*product_amount;
           add_function(product_name,product_amount);
         }
       }  
+      delete product_amount;
       cout<<"================================================================================"<<endl;    
     }
 
