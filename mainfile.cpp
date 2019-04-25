@@ -323,8 +323,99 @@ void update_function(string product_name,string new_product_name,int new_product
   } 
 }
 
+// void transfer_stock(string *product_name,int *product_amount){
+// change into two function, doing two same jobs but in reversed order
+  string otemp_name,temp_manufacturer;
+  int tmep_amount;
+  double temp_price;
+  int *n;
+  n = new int;
+  *n = 0;
+  
+  ifstream filein("Othershopstock.txt");
+  if (filein.fail()){
+    exit(1);
+  }
+  else{
+    ofstream fileout;
+    fileout.open("foreign_temp.txt", ios::app);
+    if (fileout.fail()){
+      exit(1);
+    }
+  }
+  while (filein >> temp_name){
+    filein >> temp_amount >> temp_price >> temp_manufacturer;
+    if (temp_name != *product_name){
+      fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
+    }
+    else{
+      n = new int;
+      *n = 1;
+      temp_amount = temp_amount + product_amount;
+      if (total_amount >= 0){
+        fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
+        cout << endl;
+        cout << "The fore-updated product quantity is " << temp_amount << endl;
+        cout << "The updated quantity is " << total_amount << endl;
+        cout << endl;
+      }
+      else{
+        cout << endl;
+        cout << "The quantity of " << product_name << " is fewer than " << product_amount << "!" << endl;
+        cout << endl;
+      }
+    }
+  }
+  if (*n == 0){
+  cout << endl;
+  cout << "The product " << product_name << " does not exist!" << endl;
+  cout << endl;
+  }
+  
+  ifstream fin("stock_info.txt");
+  if (fin.fail()){
+    exit(1);
+  }
+  else{
+    ofstream fout;
+    fout.open("temp.txt", ios::app);
+    if (fout.fail()){
+      exit(1);
+    }
+  }
+  while (fin >> temp_name){
+    fin >> temp_amount >> temp_price >> temp_manufacturer;
+    if (temp_name != *product_name){
+      fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
+    }
+    else{
+      n = new int;
+      *n = 1;
+      temp_amount = temp_amount + product_amount;
+      if (total_amount >= 0){
+        fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
+        cout << endl;
+        cout << "The fore-updated product quantity is " << temp_amount << endl;
+        cout << "The updated quantity is " << total_amount << endl;
+        cout << endl;
+      }
+      else{
+        cout << endl;
+        cout << "The quantity of " << product_name << " is fewer than " << product_amount << "!" << endl;
+        cout << endl;
+      }
+    }
+  }
+  if (*n == 0){
+  cout << endl;
+  cout << "The product " << product_name << " does not exist!" << endl;
+  cout << endl;
+  }
+   
+}
+  
 int main(){
-  int main_command=5;
+  int main_command=6;
   int product_amount=0;
   double product_price=0.0;
   string product_name,product_manufacturer;
@@ -338,6 +429,7 @@ int main(){
     cout<<" 2 ---- Insert Commodity"<<endl;
     cout<<" 3 ---- Delete Commodity"<<endl;
     cout<<" 4 ---- Update Commodity Information"<<endl;
+    cout<<" 5 ---- Dispatch Commodity Internally"<<endl;
     cout<<" 0 ---- Exit The Program"<<endl;
     cout<<" Please Input The Corresponding Function Number :";
     cin>>main_command;
@@ -463,6 +555,39 @@ int main(){
       update_function(product_name,new_product_name,new_product_quantity,new_product_price,new_product_manufacturer);
       cout<<"================================================================================"<<endl;
     }
+    
+    if (main_command == 5){
+      int dispatch_command = 3;
+      string *product_name = new string;
+      int *product_quantity = new int;
+      
+      while (dispatch_command!=0){
+        cout<<" 1 ---- Request Commodity To the Shop"<<endl;
+        cout<<" 2 ---- Requested to Dispatch Commodity From the Shop"<<endl;
+        cout<<" 0 ---- Return to Main Menu"<<endl;
+        cout<<" Please Input The Corresponding Function Number :";
+        cin >> dispatch_command;
+        if (dispatch_command==1){
+          cout<<" Please Input Requested Product Name : ";
+          cin>>*product_name;
+          cout<<" Please Input Requested Product Quantity : ";
+          cin>>*product_quantity;
+          transfer_stock(product_name,product_quantity);
+        }
+        if (dispatch_command==2){
+          cout<<" Please Input Requested Product Name : ";
+          cin>>*product_name;
+          cout<<" Please Input Requested Product Quantity : ";
+          cin>>*product_quantity;
+          *product_quantity = *product_quantity * -1;
+          transfer_stock(product_name,product_quantity);
+        }
+      }
+      delete product_name;
+      delete product_quantity;
+      cout<<"================================================================================"<<endl;
+    }
+      
   }
   cout<<" Thank You For Using The System"<<endl;
 }
