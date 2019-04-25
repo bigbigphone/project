@@ -37,7 +37,7 @@ void show_instock()
     exit(1);
   }
   else{
-    while (fin>>name ){
+    while (fin>>name){
       fin>>quantity>>price>>manufacturer;
       if (quantity==0){
         continue;
@@ -61,7 +61,7 @@ void show_outofstock()
     exit(1);
   }
   else{
-    while (fin>>name ){
+    while (fin>>name){
       fin>>quantity>>price>>manufacturer;
       if (quantity==0){
         cout<<name<<"  $"<<price<<"  "<<manufacturer<<endl;
@@ -73,6 +73,22 @@ void show_outofstock()
     }
   }
   fin.close();
+}
+
+void show_allstock()
+{
+  ifstream fin("stock_info.txt");
+  string name,manufacturer;
+  int quantity;
+  double price;
+  
+  if (fin.fail()){
+    exit(1);
+  }
+  while (fin>>name){
+      fin>>quantity>>price>>manufacturer;
+      cout<<name<<"  "<<quantity<<" Pieces"<<"  $"<<price<<"  "<<manufacturer<<endl;
+  }
 }
 
 void insert_new_function(string product_name,int product_amount,double product_price,string product_manufacturer)
@@ -95,6 +111,7 @@ void insert_new_function(string product_name,int product_amount,double product_p
   }
   fin.close();
   if (n > 0){
+    cout << endl;
     cout << "The product " << product_name << " already exists!" << endl;
     cout << endl;
   }
@@ -145,6 +162,7 @@ void add_function(string product_name,int product_amount)
     }
   }
   if (n == 0){
+    cout << endl;
     cout << "The product " << product_name << " does not exist!" << endl;
     cout << endl;
   }
@@ -227,12 +245,19 @@ void reduce_function(string product_name,int product_amount)
         cout << endl;
       }
       else{
+        cout << endl;
         cout << "The quantity of " << product_name << " is fewer than " << product_amount << "!" << endl;
+        cout << endl;
+      }
+      if (total_amount < 1){
+        cout << endl;
+        cout << "** Alert! It is out-of-stock! **" << total_amount << endl;
         cout << endl;
       }
     }
   }
   if (n == 0){
+    cout << endl;
     cout << "The product " << product_name << " does not exist!" << endl;
     cout << endl;
   }
@@ -288,6 +313,11 @@ void update_function(string product_name,string new_product_name,int new_product
         remove("stock_info.txt");
         rename("temp.txt", "stock_info.txt");
         cout<<"The information has been updated"<<endl;
+        if (orginal_product_quantity < 1){
+          cout << endl;
+          cout << "** Alert! It is out-of-stock! **" << total_amount << endl;
+          cout << endl;
+        }
       }
     }
   } 
@@ -304,7 +334,7 @@ int main(){
   cout<<"******************************"<<endl;
   cout<<endl;
   while (main_command!=0){
-    cout<<" 1 ---- Search Commodity By Filters"<<endl;
+    cout<<" 1 ---- Search Commodity"<<endl;
     cout<<" 2 ---- Insert Commodity"<<endl;
     cout<<" 3 ---- Delete Commodity"<<endl;
     cout<<" 4 ---- Update Commodity Information"<<endl;
@@ -314,10 +344,11 @@ int main(){
     cout<<"================================================================================"<<endl;
    
     if (main_command==1){
-      int search_command=3;
+      int search_command=4;
       while (search_command!=0){
         cout<<" 1 ---- Show In-Stock"<<endl;
         cout<<" 2 ---- Show Out-of-Stock"<<endl;
+        cout<<" 3 ---- Show All Stocks"<<endl;
         cout<<" 0 ---- Return To Previous Page"<<endl;
         cout<<" Please Input The Corrsponding Function Number : ";
         cin>>search_command;
@@ -328,6 +359,8 @@ int main(){
         if (search_command==2){
           show_outofstock();
         }
+        if (search_command==3){
+          show_allstock();
         cout<<"================================================================================"<<endl;
       }
     }
