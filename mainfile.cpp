@@ -3,27 +3,50 @@
 #include <fstream>
 using namespace std;
 
-void othershop(string name)
+int othershop(string *name, int *product_quantity)
 {
   ifstream fin("Othershopstock.txt");
   string name2,shop_name;
-  int quantity;
+  int quantity,boolean_n = 0;
   
   if (fin.fail()){
     exit(1);
   }
   else{
+    ofstream fout;
+    fout.open("temp.txt", ios::app);
+    if (fout.fail()){
+      exit(1);
+    }
     while (fin>>name2){
       fin>>quantity>>shop_name;
-      if (name2==name){
-        cout<<shop_name<<" is in stock. "<<quantity<<" pieces are available."<<endl;
+      if (name2 != *name){
+        fout << name2 << quantity << shop_name << endl;
+      if (name2==*name && quantity > *product_quantity){
+        cout<<shop_name<<" is in stock. There are "<<quantity<<" pieces currently."<<endl;
+        if (*product_quantity == -1){
+          continue;
+        }
+        else if (*product_quantity > 0){
+          quantity = quantity - *product_quantity;
+          fout << name2 << quantity << shop_name << endl;
+          boolean_n = 1;
+        }
       }
-      else{
-        continue;
+      if (name2==name && quantity < *product_quantity){
+        cout << "The actual amount of the stock is fewer than the requested amount!" << endl;
+        fin.close();
+        fout.close();
+        return boolean_n;
       }
     }
   }
   fin.close();
+  fout.close();
+  if (boolean_n == 1){
+    remove("Othershopstock.txt");
+    rename("temp.txt", "Othershopstock.txt");
+  return boolean_n;
 }
 
 void show_instock()
@@ -53,19 +76,20 @@ void show_instock()
 void show_outofstock()
 {
   ifstream fin("stock_info.txt");
-  string name,manufacturer;
+  string manufacturer;
   int quantity;
   double price;
+  string *name = new string;
   
   if (fin.fail()){
     exit(1);
   }
   else{
-    while (fin>>name){
+    while (fin>>*name){
       fin>>quantity>>price>>manufacturer;
       if (quantity==0){
-        cout<<name<<"  $"<<price<<"  "<<manufacturer<<endl;
-        othershop(name);
+        cout<<*name<<"  $"<<price<<"  "<<manufacturer<<endl;
+        othershop(name,-1);
       }
       else{
         continue;
@@ -139,7 +163,7 @@ void insert_new_function(string product_name,int *product_amount,double product_
   }
 } 
 
-void add_function(string product_name,int *product_amount)// change name to * // add string file_name?
+void add_function(string *product_name,int *product_amount)
 {
   string temp_name, temp_manufacturer;
   int temp_amount;
@@ -158,7 +182,7 @@ void add_function(string product_name,int *product_amount)// change name to * //
   }
   while (fin >> temp_name){
     fin >> temp_amount >> temp_price >> temp_manufacturer;
-    if (temp_name != product_name){
+    if (temp_name != *product_name){
       fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
     }
     else{
@@ -173,7 +197,7 @@ void add_function(string product_name,int *product_amount)// change name to * //
   }
   if (n == 0){
     cout << endl;
-    cout << "The product " << product_name << " does not exist!" << endl;
+    cout << "The product " << *product_name << " does not exist!" << endl;
     cout << endl;
   }
   fin.close();
@@ -333,96 +357,8 @@ void update_function(string product_name,string new_product_name,int new_product
   } 
 }
 
-// void transfer_stock(string *product_name,int *product_amount){
-// change into two function, doing two same jobs but in reversed order
-  string otemp_name,temp_manufacturer;
-  int tmep_amount;
-  double temp_price;
-  int *n;
-  n = new int;
-  *n = 0;
+int other_stock(string *product_name, int *product_quantity){
   
-  ifstream filein("Othershopstock.txt");
-  if (filein.fail()){
-    exit(1);
-  }
-  else{
-    ofstream fileout;
-    fileout.open("foreign_temp.txt", ios::app);
-    if (fileout.fail()){
-      exit(1);
-    }
-  }
-  while (filein >> temp_name){
-    filein >> temp_amount >> temp_price >> temp_manufacturer;
-    if (temp_name != *product_name){
-      fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
-    }
-    else{
-      n = new int;
-      *n = 1;
-      temp_amount = temp_amount + product_amount;
-      if (total_amount >= 0){
-        fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
-        cout << endl;
-        cout << "The fore-updated product quantity is " << temp_amount << endl;
-        cout << "The updated quantity is " << total_amount << endl;
-        cout << endl;
-      }
-      else{
-        cout << endl;
-        cout << "The quantity of " << product_name << " is fewer than " << product_amount << "!" << endl;
-        cout << endl;
-      }
-    }
-  }
-  if (*n == 0){
-  cout << endl;
-  cout << "The product " << product_name << " does not exist!" << endl;
-  cout << endl;
-  }
-  
-  ifstream fin("stock_info.txt");
-  if (fin.fail()){
-    exit(1);
-  }
-  else{
-    ofstream fout;
-    fout.open("temp.txt", ios::app);
-    if (fout.fail()){
-      exit(1);
-    }
-  }
-  while (fin >> temp_name){
-    fin >> temp_amount >> temp_price >> temp_manufacturer;
-    if (temp_name != *product_name){
-      fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
-    }
-    else{
-      n = new int;
-      *n = 1;
-      temp_amount = temp_amount + product_amount;
-      if (total_amount >= 0){
-        fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
-        cout << endl;
-        cout << "The fore-updated product quantity is " << temp_amount << endl;
-        cout << "The updated quantity is " << total_amount << endl;
-        cout << endl;
-      }
-      else{
-        cout << endl;
-        cout << "The quantity of " << product_name << " is fewer than " << product_amount << "!" << endl;
-        cout << endl;
-      }
-    }
-  }
-  if (*n == 0){
-  cout << endl;
-  cout << "The product " << product_name << " does not exist!" << endl;
-  cout << endl;
-  }
-   
-}
   
 int main(){
   int main_command=6;
@@ -470,6 +406,7 @@ int main(){
     if (main_command==2){
       int add_command=3;
       int *product_quantity = new int;
+      string *product_name = new string;
       
       while (add_command!=0){
         cout<<" 1 ---- Insert New Commodity"<<endl;
@@ -491,7 +428,7 @@ int main(){
         }
         if (add_command==2){
           cout<<" Please Input Product Name : ";
-          cin>>product_name;
+          cin>>*product_name;
           cout<<" Please Input Quantity of Appendage : ";
           cin>>*product_amount;
           add_function(product_name,product_amount);
@@ -504,7 +441,7 @@ int main(){
     if (main_command==3){
       int delete_command=3;
       int *product_quantity = new int;
-      int *productname = new string;
+      string *product_name = new string;
       
       while (delete_command!=0){
         cout<<" 1 ---- Delete Commodity"<<endl;
@@ -521,10 +458,10 @@ int main(){
         if (delete_command==2){
           
           cout<<" Please Input Product Name : ";
-          cin>>*productname;
+          cin>>*product_name;
           cout<<" Please Input Quantity of Removal : ";
           cin>>*product_quantity;
-          reduce_function(productname,product_quantity);
+          reduce_function(product_name,product_quantity);
         }
       } 
       cout<<"================================================================================"<<endl;
@@ -535,7 +472,6 @@ int main(){
       string new_product_name="",new_product_manufacturer="";
       int new_product_quantity=-1;
       double new_product_price=-1;
-      // if no input of new item ,break in the corresponding function =
       cout<<" Please Input Product Name : ";
       cin>>product_name;
       cout<<endl;
@@ -584,7 +520,7 @@ int main(){
           cin>>*product_name;
           cout<<" Please Input Requested Product Quantity : ";
           cin>>*product_quantity;
-          if (other_stock(product_name,product_quantity)==1){
+          if (othershop(product_name,product_quantity)==1){
             add_function(product_name,product_quantity);
         }
         if (dispatch_command==2){
