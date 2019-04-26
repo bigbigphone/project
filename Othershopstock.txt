@@ -7,4 +7,4 @@ Apple 500 YauTong
 Banna 123 YauTong
 Umbrella 45 HKU
 Watch 3 Central
-Glass 0 Central
+Glasses 0 Central
