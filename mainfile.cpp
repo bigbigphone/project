@@ -22,6 +22,7 @@ int othershop(string *name, int *product_quantity)
       fin>>quantity>>shop_name;
       if (name2 != *name){
         fout << name2 << quantity << shop_name << endl;
+      }
       if (name2==*name && quantity > *product_quantity){
         cout<<shop_name<<" is in stock. There are "<<quantity<<" pieces currently."<<endl;
         if (*product_quantity == -1){
@@ -33,19 +34,20 @@ int othershop(string *name, int *product_quantity)
           boolean_n = 1;
         }
       }
-      if (name2==name && quantity < *product_quantity){
+      if (name2==*name && quantity < *product_quantity){
         cout << "The actual amount of the stock is fewer than the requested amount!" << endl;
         fin.close();
         fout.close();
         return boolean_n;
       }
     }
+    fout.close();
   }
   fin.close();
-  fout.close();
   if (boolean_n == 1){
     remove("Othershopstock.txt");
     rename("temp.txt", "Othershopstock.txt");
+  }
   return boolean_n;
 }
 
@@ -80,6 +82,9 @@ void show_outofstock()
   int quantity;
   double price;
   string *name = new string;
+  int *p;
+  p = new int;
+  *p = -1;
   
   if (fin.fail()){
     exit(1);
@@ -89,7 +94,7 @@ void show_outofstock()
       fin>>quantity>>price>>manufacturer;
       if (quantity==0){
         cout<<*name<<"  $"<<price<<"  "<<manufacturer<<endl;
-        othershop(name,-1);
+        othershop(name, p);
       }
       else{
         continue;
@@ -97,11 +102,12 @@ void show_outofstock()
     }
   }
   fin.close();
+  delete p;
 }
 
 int allstock(string *product_name)
 {
-  ifstream fin(stock_info.txt);
+  ifstream fin("stock_info.txt");
   string name,manufacturer;
   int quantity;
   double price;
@@ -303,9 +309,9 @@ void reduce_function(string *product_name,int *product_amount)
 
 void update_function(string product_name,string new_product_name,int new_product_quantity,double new_product_price,string new_product_manufacturer)
 {
-  string orginal_product_name,orginal_product_manufacturer;
-  int orginal_product_quantity;
-  double orginal_product_price;
+  string original_product_name,original_product_manufacturer;
+  int original_product_quantity;
+  double original_product_price;
   int n=0;
   
   ifstream fin("stock_info.txt");
@@ -319,24 +325,24 @@ void update_function(string product_name,string new_product_name,int new_product
       exit(1);
     }
     else{
-      while(fin>>orginal_product_name){
-        fin>>orginal_product_quantity>>orginal_product_price>>orginal_product_manufacturer;
-        if (orginal_product_name==product_name){
+      while(fin>>original_product_name){
+        fin>>original_product_quantity>>original_product_price>>original_product_manufacturer;
+        if (original_product_name==product_name){
           n=1;
           if (new_product_name!=""){
-            orginal_product_name=new_product_name;
+            original_product_name=new_product_name;
           }
           if (new_product_quantity!=-1){
-            orginal_product_quantity=new_product_quantity;
+            original_product_quantity=new_product_quantity;
           }
           if (new_product_price!=-1){
-            orginal_product_price=new_product_price;
+            original_product_price=new_product_price;
           }
           if (new_product_manufacturer!=""){
-            orginal_product_manufacturer=new_product_manufacturer;
+            original_product_manufacturer=new_product_manufacturer;
           }
         }
-        fout<<orginal_product_name<<" "<<orginal_product_quantity<<" "<<orginal_product_price<<" "<<orginal_product_manufacturer<<endl;
+        fout<<original_product_name<<" "<<original_product_quantity<<" "<<original_product_price<<" "<<original_product_manufacturer<<endl;
       }
       fin.close();
       fout.close(); 
@@ -347,9 +353,9 @@ void update_function(string product_name,string new_product_name,int new_product
         remove("stock_info.txt");
         rename("temp.txt", "stock_info.txt");
         cout<<"The information has been updated"<<endl;
-        if (orginal_product_quantity < 1){
+        if (original_product_quantity < 1){
           cout << endl;
-          cout << "** Alert! It is out-of-stock! **" << total_amount << endl;
+          cout << "** Alert! It is out-of-stock! **" << original_product_quantity << endl;
           cout << endl;
         }
       }
@@ -357,9 +363,6 @@ void update_function(string product_name,string new_product_name,int new_product
   } 
 }
 
-int other_stock(string *product_name, int *product_quantity){
-  
-  
 int main(){
   int main_command=6;
   int product_amount=0;
@@ -398,16 +401,19 @@ int main(){
           show_outofstock();
         }
         if (search_command==3){
-          allstock("all");
-        cout<<"================================================================================"<<endl;
+          string *s;
+          s = new string;
+          *s = "all";
+          allstock(s);
+          delete s;
+        }       cout<<"================================================================================"<<endl;
       }
     }
     
     if (main_command==2){
       int add_command=3;
       int *product_quantity = new int;
-      string *product_name = new string;
-      
+        
       while (add_command!=0){
         cout<<" 1 ---- Insert New Commodity"<<endl;
         cout<<" 2 ---- Insert Current Commodity"<<endl;
@@ -424,25 +430,24 @@ int main(){
           cin>>product_price;
           cout<<" Please Input Manufacturer : ";
           cin>>product_manufacturer;
-          insert_new_function(product_name,product_amount,product_price,product_manufacturer);
+          insert_new_function(product_name,product_quantity,product_price,product_manufacturer);
         }
         if (add_command==2){
+          string *product_name = new string;
           cout<<" Please Input Product Name : ";
           cin>>*product_name;
           cout<<" Please Input Quantity of Appendage : ";
-          cin>>*product_amount;
-          add_function(product_name,product_amount);
+          cin>>*product_quantity;
+          add_function(product_name,product_quantity);
+          delete product_name;
         }
       }  
-      delete product_amount;
+      delete product_quantity;
       cout<<"================================================================================"<<endl;    
     }
 
     if (main_command==3){
-      int delete_command=3;
-      int *product_quantity = new int;
-      string *product_name = new string;
-      
+      int delete_command=3;      
       while (delete_command!=0){
         cout<<" 1 ---- Delete Commodity"<<endl;
         cout<<" 2 ---- Reduce Commodity Quantity"<<endl;
@@ -456,7 +461,8 @@ int main(){
           delete_function(product_name);
         }
         if (delete_command==2){
-          
+          int *product_quantity = new int;
+          string *product_name = new string;
           cout<<" Please Input Product Name : ";
           cin>>*product_name;
           cout<<" Please Input Quantity of Removal : ";
@@ -522,6 +528,7 @@ int main(){
           cin>>*product_quantity;
           if (othershop(product_name,product_quantity)==1){
             add_function(product_name,product_quantity);
+          }
         }
         if (dispatch_command==2){
           cout<<" Please Input Requested Product Name : ";
