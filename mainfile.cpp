@@ -193,35 +193,51 @@ void add_function(string *product_name,int *product_amount, int shop_type)
   if (fout.fail()){
     exit(1);
   }
-  // if s_t == 0
-  while (fin >> temp_name){
-    fin >> temp_amount >> temp_price >> temp_manufacturer;
-    if (temp_name != *product_name){
-      fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
+ if (shop_type == 0){
+   while (fin >> temp_name){
+     fin >> temp_amount >> temp_price >> temp_manufacturer;
+     if (temp_name != *product_name){
+       fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
+     }
+     else{
+       n += 1;
+       *product_amount = temp_amount + *product_amount;
+       fout << temp_name << " " << *product_amount << " " << temp_price << " " << temp_manufacturer << endl;
+       cout << endl;
+       cout << "The fore-updated product quantity is " << temp_amount << endl;
+       cout << "The updated quantity is " << *product_amount << endl;
+       cout << endl;
+     }
+   } 
+   if (n == 0){
+     cout << endl;
+     cout << "The product " << *product_name << " does not exist!" << endl;
+     cout << endl;
+   }
+   fin.close();
+   fout.close();
+   remove("stock_info.txt");
+   rename("temp.txt", "stock_info.txt");
+ }
+  if (shop_type == 1){
+    while (fin >> temp_name){
+      fin >> temp_amount >> temp_manufacturer;
+      if (temp_name != *product_name){
+        fout << temp_name << " " << temp_amount << " " << temp_manufacturer << endl;
+      }
+      else{
+        *product_amount = temp_amount + *product_amount;
+        fout << temp_name << " " << *product_amount << " " << temp_manufacturer << endl;
+        cout << endl;
+        cout << "The quantity of " << temp_name << " in other shops is currently " << *product_amount << endl;
+        cout << endl;
+      }
     }
-    else{
-      n += 1;
-      *product_amount = temp_amount + *product_amount;
-      fout << temp_name << " " << *product_amount << " " << temp_price << " " << temp_manufacturer << endl;
-      cout << endl;
-      cout << "The fore-updated product quantity is " << temp_amount << endl;
-      cout << "The updated quantity is " << *product_amount << endl;
-      cout << endl;
-    }
+    fin.close();
+    fout.close();
+    remove("Othershopstock.txt");
+    rename("temp.txt", "Othershopstock.txt");
   }
-  if (n == 0){
-    cout << endl;
-    cout << "The product " << *product_name << " does not exist!" << endl;
-    cout << endl;
-  }
-  
-  // if s_t == 1
-  
-  
-  fin.close();
-  fout.close();
-  remove("stock_info.txt");
-  rename("temp.txt", "stock_info.txt");
 }
 
 void delete_function(string product_name)
@@ -376,8 +392,6 @@ void update_function(string product_name,string new_product_name,int new_product
     }
   } 
 }
-
-void add_
 
 int main(){
   int main_command=6;
