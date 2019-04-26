@@ -75,7 +75,7 @@ void show_outofstock()
   fin.close();
 }
 
-void show_allstock()
+void show_allstock() // change to int, when "all" return 0, when "product_name" return 1, change name to allstock(product)
 {
   ifstream fin("stock_info.txt");
   string name,manufacturer;
@@ -129,7 +129,7 @@ void insert_new_function(string product_name,int *product_amount,double product_
   }
 } 
 
-void add_function(string product_name,int *product_amount)
+void add_function(string product_name,int *product_amount)// change name to * // add string file_name?
 {
   string temp_name, temp_manufacturer;
   int temp_amount;
@@ -212,7 +212,7 @@ void delete_function(string product_name)
   rename("temp.txt", "stock_info.txt");
 }
 
-void reduce_function(string product_name,int product_amount)
+void reduce_function(string product_name,int product_amount)// change all into *
 {
   string temp_name, temp_manufacturer;
   int temp_amount,total_amount;
@@ -572,15 +572,18 @@ int main(){
           cin>>*product_name;
           cout<<" Please Input Requested Product Quantity : ";
           cin>>*product_quantity;
-          transfer_stock(product_name,product_quantity);
+          if (other_stock(product_name,product_quantity)==1){
+            add_function(product_name,product_quantity);
         }
         if (dispatch_command==2){
           cout<<" Please Input Requested Product Name : ";
           cin>>*product_name;
           cout<<" Please Input Requested Product Quantity : ";
           cin>>*product_quantity;
-          *product_quantity = *product_quantity * -1;
-          transfer_stock(product_name,product_quantity);
+          //*product_quantity = *product_quantity * -1;
+          if (????){
+          reduce_function(product_name,product_quantity);
+          }
         }
       }
       delete product_name;
