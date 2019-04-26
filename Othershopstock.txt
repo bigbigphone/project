@@ -1,2 +1,10 @@
 AirJordan 5 MongKok
-UltraBoost 0 MonKok
+UltraBoost 0 MongKok
+Macbook 20 KwunTong
+iPhone 50 Causewaybay
+Orange 60 YauTong
+Apple 500 YauTong
+Banna 123 YauTong
+Umbrella 45 HKU
+Watch 3 Central
+Glass 0 Central
