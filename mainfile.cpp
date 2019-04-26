@@ -21,7 +21,7 @@ int othershop(string *name, int *product_quantity)
     while (fin>>name2){
       fin>>quantity>>shop_name;
       if (name2 != *name){
-        fout << name2 << quantity << shop_name << endl;
+        fout << name2 << " " << quantity << " " << shop_name << endl;
       }
       if (name2==*name && quantity > *product_quantity){
         cout<<shop_name<<" is in stock. There are "<<quantity<<" pieces currently."<<endl;
@@ -30,7 +30,7 @@ int othershop(string *name, int *product_quantity)
         }
         else if (*product_quantity > 0){
           quantity = quantity - *product_quantity;
-          fout << name2 << quantity << shop_name << endl;
+          fout << name2 << " " << quantity << " " << shop_name << endl;
           boolean_n = 1;
         }
       }
