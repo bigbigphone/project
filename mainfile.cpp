@@ -75,9 +75,9 @@ void show_outofstock()
   fin.close();
 }
 
-void show_allstock() // change to int, when "all" return 0, when "product_name" return 1, change name to allstock(product)
+int allstock(string *product_name)
 {
-  ifstream fin("stock_info.txt");
+  ifstream fin(stock_info.txt);
   string name,manufacturer;
   int quantity;
   double price;
@@ -86,9 +86,19 @@ void show_allstock() // change to int, when "all" return 0, when "product_name" 
     exit(1);
   }
   while (fin>>name){
-      fin>>quantity>>price>>manufacturer;
+    fin>>quantity>>price>>manufacturer;
+    if (*product_name == "all"){
       cout<<name<<"  "<<quantity<<" Pieces"<<"  $"<<price<<"  "<<manufacturer<<endl;
+    }
+    else{
+      if (name == *product_name){
+        fin.close();
+        return 1;
+      }
+    }
   }
+  fin.close();
+  return 0;
 }
 
 void insert_new_function(string product_name,int *product_amount,double product_price,string product_manufacturer)
@@ -157,7 +167,7 @@ void add_function(string product_name,int *product_amount)// change name to * //
       fout << temp_name << " " << *product_amount << " " << temp_price << " " << temp_manufacturer << endl;
       cout << endl;
       cout << "The fore-updated product quantity is " << temp_amount << endl;
-      cout << "The updated quantity is " << total_amount << endl;
+      cout << "The updated quantity is " << *product_amount << endl;
       cout << endl;
     }
   }
@@ -212,7 +222,7 @@ void delete_function(string product_name)
   rename("temp.txt", "stock_info.txt");
 }
 
-void reduce_function(string product_name,int product_amount)// change all into *
+void reduce_function(string *product_name,int *product_amount)
 {
   string temp_name, temp_manufacturer;
   int temp_amount,total_amount;
@@ -231,12 +241,12 @@ void reduce_function(string product_name,int product_amount)// change all into *
   }
   while (fin >> temp_name){
     fin >> temp_amount >> temp_price >> temp_manufacturer;
-    if (temp_name != product_name){
+    if (temp_name != *product_name){
       fout << temp_name << " " << temp_amount << " " << temp_price << " " << temp_manufacturer << endl;
     }
     else{
       n += 1;
-      total_amount = temp_amount - product_amount;
+      total_amount = temp_amount - *product_amount;
       if (total_amount >= 0){
         fout << temp_name << " " << total_amount << " " << temp_price << " " << temp_manufacturer << endl;
         cout << endl;
@@ -246,7 +256,7 @@ void reduce_function(string product_name,int product_amount)// change all into *
       }
       else{
         cout << endl;
-        cout << "The quantity of " << product_name << " is fewer than " << product_amount << "!" << endl;
+        cout << "The quantity of " << *product_name << " is fewer than " << *product_amount << "!" << endl;
         cout << endl;
       }
       if (total_amount < 1){
@@ -258,7 +268,7 @@ void reduce_function(string product_name,int product_amount)// change all into *
   }
   if (n == 0){
     cout << endl;
-    cout << "The product " << product_name << " does not exist!" << endl;
+    cout << "The product " << *product_name << " does not exist!" << endl;
     cout << endl;
   }
   fin.close();
@@ -452,16 +462,14 @@ int main(){
           show_outofstock();
         }
         if (search_command==3){
-          show_allstock();
+          allstock("all");
         cout<<"================================================================================"<<endl;
       }
     }
     
     if (main_command==2){
-      string product_name, product_manufacturer;
       int add_command=3;
-      double product_price;
-      int *product_amount = new int;
+      int *product_quantity = new int;
       
       while (add_command!=0){
         cout<<" 1 ---- Insert New Commodity"<<endl;
@@ -474,7 +482,7 @@ int main(){
           cout<<" Please Input Product Name : ";
           cin>>product_name;
           cout<<" Please Input Quantity : ";
-          cin>>*product_amount;
+          cin>>*product_quantity;
           cout<<" Please Input Price : ";
           cin>>product_price;
           cout<<" Please Input Manufacturer : ";
@@ -495,6 +503,9 @@ int main(){
 
     if (main_command==3){
       int delete_command=3;
+      int *product_quantity = new int;
+      int *productname = new string;
+      
       while (delete_command!=0){
         cout<<" 1 ---- Delete Commodity"<<endl;
         cout<<" 2 ---- Reduce Commodity Quantity"<<endl;
@@ -508,11 +519,12 @@ int main(){
           delete_function(product_name);
         }
         if (delete_command==2){
+          
           cout<<" Please Input Product Name : ";
-          cin>>product_name;
+          cin>>*productname;
           cout<<" Please Input Quantity of Removal : ";
-          cin>>product_amount;
-          reduce_function(product_name,product_amount);
+          cin>>*product_quantity;
+          reduce_function(productname,product_quantity);
         }
       } 
       cout<<"================================================================================"<<endl;
@@ -580,9 +592,8 @@ int main(){
           cin>>*product_name;
           cout<<" Please Input Requested Product Quantity : ";
           cin>>*product_quantity;
-          //*product_quantity = *product_quantity * -1;
-          if (????){
-          reduce_function(product_name,product_quantity);
+          if (allstock(product_name)==1){
+            reduce_function(product_name,product_quantity);
           }
         }
       }
