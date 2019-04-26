@@ -32,6 +32,7 @@ int othershop(string *name, int *product_quantity)
         }
       }
       if (name2==*name && quantity < *product_quantity){
+        cout << endl;
         cout << "The actual amount of the stock is fewer than the requested amount!" << endl;
         fin.close();
         fout.close();
@@ -166,23 +167,33 @@ void insert_new_function(string product_name,int *product_amount,double product_
   }
 } 
 
-void add_function(string *product_name,int *product_amount)
+void add_function(string *product_name,int *product_amount, int shop_type)
 {
   string temp_name, temp_manufacturer;
   int temp_amount;
   double temp_price;
   int n = 0;
   
-  ifstream fin;
-  fin.open("stock_info.txt");
-  if (fin.fail()){
-    exit(1);
+  if (shop_type == 0){
+    ifstream fin;
+    fin.open("stock_info.txt");
+    if (fin.fail()){
+      exit(1);
+    }
+  }
+  if (shop_type == 1){
+    ifstream fin;
+    fin.open("Othershopstock.txt");
+    if (fin.fail()){
+      exit(1);
+    }
   }
   ofstream fout;
   fout.open("temp.txt", ios::app);
   if (fout.fail()){
     exit(1);
   }
+  // if s_t == 0
   while (fin >> temp_name){
     fin >> temp_amount >> temp_price >> temp_manufacturer;
     if (temp_name != *product_name){
@@ -203,6 +214,10 @@ void add_function(string *product_name,int *product_amount)
     cout << "The product " << *product_name << " does not exist!" << endl;
     cout << endl;
   }
+  
+  // if s_t == 1
+  
+  
   fin.close();
   fout.close();
   remove("stock_info.txt");
@@ -215,7 +230,7 @@ void delete_function(string product_name)
   int temp_amount;
   double temp_price;
   int n = 0;
-  
+ 
   ifstream fin;
   fin.open("stock_info.txt");
   if (fin.fail()){
@@ -344,7 +359,9 @@ void update_function(string product_name,string new_product_name,int new_product
       fin.close();
       fout.close(); 
       if (n==0){
+        cout << endl;
         cout<<"Sorry, the input item does not exist"<<endl;
+        cout << endl;
       }
       else{
         remove("stock_info.txt");
@@ -437,7 +454,7 @@ int main(){
           cin>>*product_name;
           cout<<" Please Input Quantity of Appendage : ";
           cin>>*product_quantity;
-          add_function(product_name,product_quantity);
+          add_function(product_name,product_quantity,0);
           delete product_name;
         }
       }  
@@ -526,7 +543,7 @@ int main(){
           cout<<" Please Input Requested Product Quantity : ";
           cin>>*product_quantity;
           if (othershop(product_name,product_quantity)==1){
-            add_function(product_name,product_quantity);
+            add_function(product_name,product_quantity,0);
           }
         }
         if (dispatch_command==2){
@@ -536,7 +553,7 @@ int main(){
           cin>>*product_quantity;
           if (allstock(product_name)==1){
             reduce_function(product_name,product_quantity);
-            
+            add_function(product_name,product_quantity,1);
           }
         }
       }
