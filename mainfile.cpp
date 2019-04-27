@@ -24,7 +24,9 @@ int othershop(string *name, int *product_quantity)
         fout << name2 << " " << quantity << " " << shop_name << endl;
       }
       if (name2==*name && quantity > *product_quantity){
+        cout << endl;
         cout<<shop_name<<" is in stock. There are "<<quantity<<" pieces currently."<<endl;
+        cout << endl;
         if (*product_quantity > 0){
           quantity = quantity - *product_quantity;
           fout << name2 << " " << quantity << " " << shop_name << endl;
@@ -34,6 +36,7 @@ int othershop(string *name, int *product_quantity)
       if (name2==*name && quantity < *product_quantity){
         cout << endl;
         cout << "The actual amount of the stock is fewer than the requested amount!" << endl;
+        cout << endl;
         fin.close();
         fout.close();
         return boolean_n;
@@ -420,7 +423,7 @@ int main(){
         cout<<" 1 ---- Show In-Stock"<<endl;
         cout<<" 2 ---- Show Out-of-Stock"<<endl;
         cout<<" 3 ---- Show All Stocks"<<endl;
-        cout<<" 0 ---- Return To Previous Page"<<endl;
+        cout<<" 0 ---- Return to Main Menu"<<endl;
         cout<<" Please Input The Corrsponding Function Number : ";
         cin>>search_command;
         cout<<endl;
@@ -447,7 +450,7 @@ int main(){
       while (add_command!=0){
         cout<<" 1 ---- Insert New Commodity"<<endl;
         cout<<" 2 ---- Insert Current Commodity"<<endl;
-        cout<<" 0 ---- Return To Previous Page"<<endl;
+        cout<<" 0 ---- Return to Main Menu"<<endl;
         cout<<" Please Input The Corresponding Function Number : ";
         cin>>add_command;
         cout<<endl;
@@ -481,7 +484,7 @@ int main(){
       while (delete_command!=0){
         cout<<" 1 ---- Delete Commodity"<<endl;
         cout<<" 2 ---- Reduce Commodity Quantity"<<endl;
-        cout<<" 0 ---- Return To Previous Page"<<endl;
+        cout<<" 0 ---- Return to Main Menu"<<endl;
         cout<<" Please Input The Corresponding Function Number :";
         cin>>delete_command;
         cout<<endl;
@@ -516,7 +519,7 @@ int main(){
         cout<<" 2 ---- Change Commodity Quantity"<<endl;
         cout<<" 3 ---- Change Commodity Price"<<endl;
         cout<<" 4 ---- Change Commodity Manufacturer"<<endl;
-        cout<<" 0 ---- Finishing the Changing Process"<<endl;
+        cout<<" 0 ---- Return to Main Menu"<<endl;
         cout<<" Please Input The Corresponding Function Number :";
         cin >> update_command;
         if (update_command==1){
@@ -573,8 +576,7 @@ int main(){
       }
       delete product_name;
       delete product_quantity;
-
-cout<<"================================================================================"<<endl;
+      cout<<"================================================================================"<<endl;
     }
       
   }
