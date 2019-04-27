@@ -177,26 +177,17 @@ void add_function(string *product_name,int *product_amount, int shop_type)
   double temp_price;
   int n = 0;
   
-  if (shop_type == 0){
-    ifstream fin;
-    fin.open("stock_info.txt");
-    if (fin.fail()){
-      exit(1);
-    }
-  }
-  if (shop_type == 1){
-    ifstream fin;
-    fin.open("Othershopstock.txt");
-    if (fin.fail()){
-      exit(1);
-    }
-  }
   ofstream fout;
   fout.open("temp.txt", ios::app);
   if (fout.fail()){
     exit(1);
   }
  if (shop_type == 0){
+   ifstream fin;
+   fin.open("stock_info.txt");
+   if (fin.fail()){
+     exit(1);
+   }
    while (fin >> temp_name){
      fin >> temp_amount >> temp_price >> temp_manufacturer;
      if (temp_name != *product_name){
@@ -223,6 +214,11 @@ void add_function(string *product_name,int *product_amount, int shop_type)
    rename("temp.txt", "stock_info.txt");
  }
   if (shop_type == 1){
+    ifstream fin;
+    fin.open("Othershopstock.txt");
+    if (fin.fail()){
+      exit(1);
+    }
     while (fin >> temp_name){
       fin >> temp_amount >> temp_manufacturer;
       if (temp_name != *product_name){
